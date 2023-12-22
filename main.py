@@ -4,20 +4,22 @@ import matplotlib.pyplot as plt
 import pytesseract
 import re
 import dateutil.parser
+import requests
 from tensorflow.keras.models import load_model
 from pytesseract import Output
 
 from flask import Flask, request, jsonify
 
 
-
 def plot_gray(image):
     plt.figure(figsize=(16, 10))
     return plt.imshow(image, cmap='Greys_r')
 
+
 def plot_rgb(image):
     plt.figure(figsize=(16, 10))
     return plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+
 
 def classify_text(text, max_amount, model_path):
     # Load the pre-trained classification model
@@ -39,23 +41,28 @@ def classify_text(text, max_amount, model_path):
         item_class = model.predict(text_sequence)[0]
         return item_class
 
+
 def extract_store_name(text):
     lines = text.split('\n')
     if lines:
         return lines[0].strip()
     return None
 
+
 def extract_date_and_time(text):
     # Check for specific keywords or patterns indicative of a date
-    date_keywords = ['date', 'day', 'month', 'year', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+    date_keywords = ['date', 'day', 'month', 'year', 'jan', 'feb', 'mar',
+                     'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
 
     # Convert text to lowercase for case-insensitive matching
     lowercase_text = text.lower()
 
     # Extract only dates
-    dates_found = [dateutil.parser.parse(match).date() for match in re.findall(r'\b\d{1,4}[/-]\d{1,2}[/-]\d{2,4}\b', text)]
+    dates_found = [dateutil.parser.parse(match).date() for match in re.findall(
+        r'\b\d{1,4}[/-]\d{1,2}[/-]\d{2,4}\b', text)]
 
     return dates_found
+
 
 def find_amounts(text):
     amounts = re.findall(r'\d+\.\d{2}\b', text)
@@ -67,12 +74,11 @@ def find_amounts(text):
     return unique
 
 
-
-
-file = "Test-Project/1188-receipt.jpg"
+# file = "Test-Project/1188-receipt.jpg"
 model_path = 'model.h5'
 
 app = Flask(__name__)
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -90,13 +96,15 @@ def index():
             n_boxes = len(d['level'])
             boxes = cv2.cvtColor(image.copy(), cv2.COLOR_BGR2RGB)
             for i in range(n_boxes):
-                (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
-                boxes = cv2.rectangle(boxes, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                (x, y, w, h) = (d['left'][i], d['top']
+                                [i], d['width'][i], d['height'][i])
+                boxes = cv2.rectangle(
+                    boxes, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
             extracted_text = pytesseract.image_to_string(image)
 
             store_name = extract_store_name(extracted_text)
-            #print("Store Name:", store_name)
+            # print("Store Name:", store_name)
 
             amounts = find_amounts(extracted_text)
 
@@ -105,17 +113,18 @@ def index():
                 print("Total tidak ditemukan")
             else:
                 max_amount = max(amounts)
-                #print("Total:", max_amount)
+                # print("Total:", max_amount)
 
             dates_found = extract_date_and_time(extracted_text)
             if dates_found:
-                #print("Tanggal ditemukan dalam teks:")
+                # print("Tanggal ditemukan dalam teks:")
                 for date_found in dates_found:
                     print(date_found)
             else:
                 print("Tanggal tidak ditemukan dalam teks.")
 
-            classification_result = classify_text(extracted_text, max_amount, model_path)
+            classification_result = classify_text(
+                extracted_text, max_amount, model_path)
             data = {
                 "store_name": store_name,
                 "total": max_amount,
@@ -127,11 +136,11 @@ def index():
             return jsonify({"error": str(e)})
     return "OK"
 
-#plot_gray(image)
-#plot_rgb(boxes)
-#print("Extracted Text:")
-#print(extracted_text)
+# plot_gray(image)
+# plot_rgb(boxes)
+# print("Extracted Text:")
+# print(extracted_text)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
-

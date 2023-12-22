@@ -1,5 +1,11 @@
 Flask
 gunicorn
 tensorflow
+keras
 numpy
 pillow
+pytesseract
+opencv-python-headless
+matplotlib
+python-dateutil
+requests

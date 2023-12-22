@@ -3,3 +3,6 @@ gunicorn
 tensorflow
 numpy
 pillow
+pytesseract
+scikit-learn
+opencv-python

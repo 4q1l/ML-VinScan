@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import pytesseract
 import re
 import dateutil.parser
+import os
 from tensorflow.keras.models import load_model
 from pytesseract import Output
 
@@ -133,5 +134,5 @@ def index():
 #print(extracted_text)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=int(os.environ.get('PORT', 8080)))
 

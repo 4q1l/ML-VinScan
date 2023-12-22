@@ -144,9 +144,4 @@ def index():
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     app.run(debug=True)
-=======
-    app.run(debug=True, port=int(os.environ.get('PORT', 8080)))
-
->>>>>>> 63056e7fb63eb68cdcc74306da765d3bc40cbab7

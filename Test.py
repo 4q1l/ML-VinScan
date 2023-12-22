@@ -1,7 +1,7 @@
 import requests
 from time import sleep
 
-url = "https://getpredict2-r5ss4yyf6q-et.a.run.app"
+url = "https://getpredict4-r5ss4yyf6q-et.a.run.app"
 
 # Retry up to 3 times with a delay between retries
 for _ in range(3):

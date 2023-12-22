@@ -5,6 +5,7 @@ import pytesseract
 import re
 import dateutil.parser
 import requests
+import os
 from tensorflow.keras.models import load_model
 from pytesseract import Output
 
@@ -143,4 +144,9 @@ def index():
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     app.run(debug=True)
+=======
+    app.run(debug=True, port=int(os.environ.get('PORT', 8080)))
+
+>>>>>>> 63056e7fb63eb68cdcc74306da765d3bc40cbab7

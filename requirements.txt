@@ -9,3 +9,4 @@ opencv-python-headless
 matplotlib
 python-dateutil
 requests
+scikit-learn

@@ -1,6 +1,7 @@
 Flask
 gunicorn
 tensorflow
+keras
 numpy
 pillow
 pytesseract
@@ -9,3 +10,7 @@ scikit-learn
 PyMuPDF
 frontend
 opencv-python-headless
+matplotlib
+python-dateutil
+requests
+scikit-learn

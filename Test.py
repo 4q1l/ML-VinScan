@@ -1,4 +1,5 @@
 import requests
+from time import sleep
 
 try:
     resp = requests.post("http://localhost:8080/index4", files={'file': open('MutasiBCA_291123-061223.pdf', 'rb')})

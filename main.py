@@ -400,7 +400,5 @@ def index4():  # Changed the function name
 
 if __name__ == "__main__":
     app.run(debug=True, port=int(os.environ.get('PORT', 8080)))
-# plot_gray(image)
-# plot_rgb(boxes)
-# print("Extracted Text:")
-# print(extracted_text)
+
+

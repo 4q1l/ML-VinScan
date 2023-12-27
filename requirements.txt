@@ -4,5 +4,8 @@ tensorflow
 numpy
 pillow
 pytesseract
+tesseract-ocr
 scikit-learn
-opencv-python
+PyMuPDF
+frontend
+opencv-python-headless
